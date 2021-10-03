@@ -47,25 +47,38 @@ function employeeController() {
       }
     },
 
+    // async deleteOne(req, res, next) {
+    //   try {
+    //     let { id } = req.params;
+
+    //     const emp = await Employee.findByIdAndRemove(id);
+    //     if (!emp) {
+    //       return res
+    //         .status(status.NOT_FOUND)
+    //         .json({ msg: "This empID not found" });
+    //     }
+
+    //     res.json({ msg: `This item is deleted with Id = ${result._id}` });
+    //   } catch (err) {
+       
+    //     res.status(status.BAD_REQUEST).send("Server Error");
+    //   }
+    // },
+
+
     async deleteOne(req, res, next) {
-      try {
-        let { id } = req.params.id;
+      
+      let { id } = req.params
 
-        const emp = await Employee.findByIdAndRemove(id);
-        if (!emp) {
-          return res
-            .status(status.NOT_FOUND)
-            .json({ msg: "This empID not found" });
-        }
-
-        res.json({ msg: `This item is deleted with Id = ${result._id}` });
-      } catch (err) {
-        if (err.kind == "ObjectId") {
-          return res.status(status.NOT_FOUND).json({ msg: "emp not found" });
-        }
-
-        res.status(status.BAD_REQUEST).send("Server Error");
+      let result = await Employee.findByIdAndDelete(id)
+      
+      if(!result){
+        res.status(status.INTERNAL_SERVER_ERROR).send("Not Found")
       }
+      res.status(status.ACCEPTED).json({
+        msg:"Deleted successfully",
+        result: `This item is deleted with Id = ${result._id}`
+      })
     },
 
     async findOne(req, res, next) {

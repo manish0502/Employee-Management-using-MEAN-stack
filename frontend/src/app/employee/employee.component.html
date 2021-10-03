@@ -1,0 +1,80 @@
+<div class="container py-3">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Employee Management</h2>
+        </div>
+
+        <div class="col ml-auto text-right">
+            <button type="button" class="btn btn-outline-success"
+            (click)="onAddemployee()">
+            <i class="fa fa-plus"></i> Add Employee
+
+            </button>
+
+        </div>
+    </div>
+
+    <hr>
+    <div class="row">
+        <div class="col-md-4" *ngFor="let item of employees">
+            <div class="card mb-3">
+                <div class="card-body">
+
+                    <h5 class="card-title">{{ item.name}}</h5>
+                    <h6 class="class-subtitle mb-2 text-muted">{{item.position}}</h6>
+                    <span class="badge badge-primary mr-2">{{item.email}}</span>
+                    <span class="badge" [ngClass]="{
+                        'badge-success':item.dept =='Design',
+                        'badge-danger':item.dept =='Development'
+                    }">{{item.dept}}</span>
+
+                    <hr>
+                    <button type="button" class="btn btn-sm btn-outline-primary mr-2">Edit</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" (click)="onDeleteEmployee(item._id)">Delete</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- <div class="modal fad show" [class.show]="showModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+   <div class="modal-content">
+       <div class="modal-header">
+           <h5 class="modal-title">Add Employee</h5>
+           <button (click)="onCloseModal()" type="button" class="close">
+               <span aria-hidden="true">&times;</span>
+           </button>
+       </div>
+   </div>
+
+
+    </div>
+
+</div> -->
+
+<hr>
+<!-- 
+<div class="modal fad show" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="close" (click)="onCloseModal()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="  onCloseModal()">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
