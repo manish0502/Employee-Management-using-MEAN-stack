@@ -102,11 +102,11 @@ function employeeController() {
       let updatedEmployee ={
         name:req.body.name,
         email:req.body.email,
-        position:req.body.position,
+        position:req.body.position ,
         dept:req.body.dept
       };
 
-      let updatedValue = await Employee.findByIdAndUpdate({_id:id }, updatedEmployee, {new :true});
+      let updatedValue = await Employee.findByIdAndUpdate({_id:id }, { $set:updatedEmployee}, {new :true});
       res.json({
         msg: "success",
         status: status.ACCEPTED,
