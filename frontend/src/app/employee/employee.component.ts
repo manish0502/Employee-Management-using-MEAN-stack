@@ -11,14 +11,14 @@ import { Employee } from '../models/employee';
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
-  styleUrls: ['./employee.component.css'],
+  styleUrls: ['./employee.component.scss'],
 })
 export class EmployeeComponent implements OnInit {
   empForm: FormGroup;
   showModal: boolean = false;
   editMode: boolean = false;
   employees: Employee[];
-
+  Emp : Employee
   constructor(private fb: FormBuilder, private empService: EmployeeService) {}
 
   ngOnInit(): void {
@@ -33,27 +33,58 @@ export class EmployeeComponent implements OnInit {
       name: ['Ex. Manish Giri', Validators.required],
       email: ['Ex. Manish@gmail.com', Validators.required],
       position: ['Ex. Full stack developer', Validators.required],
-      dept: ['Ex. Development'],
+      dept: ['Development'],
     });
+  }
+
+  onEditEmployee(emp:Employee){
+    this.editMode = true;
+
+    this.showModal = true;
+    this.empForm.patchValue(emp);
   }
 
   onEmpSubmit() {
     if (this.empForm.valid) {
-      //console.log(this.empForm.value);
 
-      this.empService.registerEmployee(this.empForm.value).subscribe(
-        (res) => {
-          console.log(res);
-          this.getEmployees();
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
 
-      if (this.editMode) {
-      } else {
+
+      if(this.editMode){
+            
+
+        this.empService.updateEmploye(this.empForm.value).subscribe(
+          (res) => {
+            console.log(res);
+            this.getEmployees();
+          },
+          (err) => {
+            console.log(err);
+          }
+        )
+
+
       }
+      else{
+        
+        this.empService.registerEmployee(this.empForm.value).subscribe(
+          (res) => {
+            console.log(res);
+            this.getEmployees();
+            
+  
+          },
+          (err) => {
+            console.log(err);
+          }
+        )
+      
+
+      }
+      this.onReset()
+      this.onCloseModal()
+      
+
+     
     }
   }
 
@@ -64,19 +95,34 @@ export class EmployeeComponent implements OnInit {
     });
   }
 
+
+  onReset(){
+    this.empForm.reset({
+      name: 'Ex. Alex Johnson',
+      email:'Manish@gmail.com',
+      position: 'Ex. Full Stack Developer',
+      dept: 'Development'
+    });
+  }
+  // resetForm(){
+  //   this.empForm.reset();
+  // }
+
   onAddemployee() {
     this.showModal = true;
   }
 
   onCloseModal() {
     this.showModal = false;
+    this.editMode=false;
+    this.onReset()
   }
 
   onDeleteEmployee(id) {
-    if (confirm('Do You want to delete this Employee?.')) {
+    if (confirm('Do You Really wanted to delete this Employee ?.')) {
       this.empService.deleteEmployee(id).subscribe(
         (res) => {
-          console.log(res);
+          console.log("Deleted successfully");
           this.getEmployees();
         },
         (err) => {
