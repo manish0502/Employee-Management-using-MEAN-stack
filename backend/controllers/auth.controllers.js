@@ -100,7 +100,8 @@ function authController() {
         },
         
         logout(req, res) {
-            req.logout()
+            req.logOut()
+            console.log('logout hai')
             return res.redirect('/login')  
           }
 

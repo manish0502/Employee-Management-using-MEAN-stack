@@ -12,6 +12,7 @@ router.get('/employee' , employeeController().findallDetails)
 router.get('/employee/:id' , employeeController().findOne)
 router.delete('/employee/:id' , employeeController().deleteOne)
 router.put('/employee/:id' , employeeController().updateEmployee)
+router.get('/logout' , authController().logout)
 
 
 
