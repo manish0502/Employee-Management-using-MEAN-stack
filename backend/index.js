@@ -2,8 +2,12 @@ const express= require('express');
 const connectDB = require('./config/db');
 const bodyParser = require('body-parser');
 const cors = require('cors')
+const session = require('express-session'); 
+var cookieParser = require('cookie-parser')
 var logger = require('morgan')
+var path = require('path')
 const app = express();
+var passport = require('passport');
 const employeeRoute= require("./routes/route")
 
 
@@ -18,13 +22,35 @@ app.use(cors({
     credentials:true
 }));
 
+/*********************** Passport Configration ************************************/
+
+app.use(session({
+
+    name:'myname.sid',
+    secret: 'keyboard',
+    resave: false,
+    saveUninitialized:false,
+    cookie:
+        {
+            maxAge: 1000 * 60 * 60 * 24 ,
+            httpOnly: false,
+            secure: false
+
+        }
+
+}))
+const passportInit = require('./passport/passport')
+passportInit(passport)
+app.use(passport.initialize())
+app.use(passport.session())
+
 // Intialize Middleware
 
 
 app.use(logger('dev'))
-app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json({extended : false}));
+app.use(cookieParser());
 
 
 app.get('/',(req , res)=>{
